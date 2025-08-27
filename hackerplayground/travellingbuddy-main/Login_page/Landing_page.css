@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url(./LAND_BACK.jpg);
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-size: cover; /* Ensures the image covers the entire container */
+    background-position: center;
+}
+
+header {
+    background-color: white;
+    padding: 15px 0;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-list .nav-item {
+    margin: 0 15px;
+}
+
+.nav-list a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    padding: 40px ;
+    text-align: center;
+    background-image: url(./HERO.jpg);
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-size: cover; /* Ensures the image covers the entire container */
+    background-position: center; /* Centers the image within the container */
+    width: 100%; /* Ensures it fits the full width */
+    color: white;
+}
+
+.hero h1 {
+    font-size: 3rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+}
+.go_button {
+    color: white;
+    background-color: #2575fc;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px; /* This makes the button edges curved */
+    cursor: pointer;
+    font-size: 16px;
+}   
+
+.features {
+    padding: 50px;
+    text-align: center;
+}
+
+.features h2 {
+    margin-bottom: 20px;
+}
+
+.features .row {
+    display: flex;
+    justify-content: space-around;
+}
+
+.features .col {
+    width: 30%;
+}
+
+.carousel {
+    margin: 50px 0;
+}
+
+.carousel img {
+    height: 500px;
+    object-fit: cover;
+}
+
+footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+

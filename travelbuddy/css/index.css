@@ -1,0 +1,120 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+/* Header with search bar */
+.header {
+    background: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0 0 10px 0;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.search-form input[type="text"] {
+    padding: 8px;
+    width: 300px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.search-form button {
+    padding: 8px 16px;
+    border: none;
+    background: #ff6f61;
+    color: #fff;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+/* Posts Container: Grid with 2 columns */
+.posts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Post styling */
+.post {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.post img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.post h2 {
+    padding: 10px;
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.post p {
+    padding: 0 10px 10px;
+    font-size: 0.95em;
+    color: #333;
+}
+
+/* Post Footer with actions and rating */
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.post-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 1em;
+    color: #555;
+}
+
+.post-actions button:hover {
+    color: #000;
+}
+
+.post-rating {
+    font-size: 1em;
+    font-weight: bold;
+    color: #ff6f61;
+}
+
+/* Floating Post Button */
+.post-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff6f61;
+    color: #fff;
+    padding: 15px;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
