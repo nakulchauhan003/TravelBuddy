@@ -2,8 +2,8 @@
 session_start(); // Ensure sessions are enabled
 $servername   = "localhost";
 $db_username  = "root";
-$db_password  = "";           // Update this if you have a non-empty password
-$database     = "travel_db";  // Use the database name from your SQL file
+$db_password  = "";
+$database     = "travel_db";
 
 // Create connection
 $conn = new mysqli($servername, $db_username, $db_password, $database);
@@ -13,27 +13,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Function to check if the user is logged in
-function isLoggedIn() {
-    // Adjust the logic according to your authentication system
-    return isset($_SESSION['user_id']);
-}
-
-// Redirect to login page if the user is not logged in
-if (!isLoggedIn()) {
-    header('Location: index.php');
-    exit();
-}
-
-// Fetch user details using the session user_id
-$user_id = $_SESSION['user_id'];
-$query = "SELECT name, hometown FROM users WHERE id = $user_id";
-$result = mysqli_query($conn, $query);
-if ($result && mysqli_num_rows($result) > 0) {
-    $user = mysqli_fetch_assoc($result);
-} else {
-    // Fallback values in case of error
-    $user = ['name' => 'Guest', 'hometown' => 'Unknown'];
+$user = ['name' => 'Guest', 'hometown' => 'Unknown'];
+if (isset($_SESSION['user_id'])) {
+    $user_id = (int) $_SESSION['user_id'];
+    $query = "SELECT name, hometown FROM users WHERE id = $user_id";
+    $result = mysqli_query($conn, $query);
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -45,22 +32,22 @@ if ($result && mysqli_num_rows($result) > 0) {
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #FF9A8B, #FF6A88, #FF99AC);
+      background: linear-gradient(135deg, #0f172a, #1e293b 55%, #e2e8f0);
       margin: 0;
-      padding: 20px;
-      color: #333;
-      text-align: center;
+      padding: 24px;
+      color: #0f172a;
     }
     .container {
-      max-width: 800px;
+      max-width: 1100px;
       margin: auto;
-      background: #fff;
-      border-radius: 10px;
-      padding: 50px;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      background: rgba(255,255,255,0.95);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.22);
     }
     h1 {
-      color: #FF6A88;
+      color: #0f172a;
+      margin-top: 0;
     }
     input, button {
       width: 100%;
@@ -71,23 +58,25 @@ if ($result && mysqli_num_rows($result) > 0) {
       font-size: 16px;
     }
     input {
-      background: #f0f0f0;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
     }
     button {
-      background: #FF6A88;
+      background: linear-gradient(135deg, #2563eb, #0f766e);
       color: #fff;
       cursor: pointer;
       font-weight: bold;
-      transition: background 0.3s;
+      transition: opacity 0.3s;
     }
     button:hover {
-      background: #FF3F6D;
+      opacity: 0.95;
     }
     .chat-box {
-      height: 450px;
+      height: 460px;
       overflow-y: auto;
-      background: #f9f9f9;
-      border-radius: 5px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
       padding: 15px;
       text-align: left;
       margin-top: 20px;
@@ -113,28 +102,86 @@ if ($result && mysqli_num_rows($result) > 0) {
     .loading {
       display: none;
       font-size: 14px;
-      color: #FF6A88;
+      color: #2563eb;
       margin-top: 10px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+    .hero-copy {
+      padding: 10px 6px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #075985;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .summary {
+      color: #475569;
+      line-height: 1.7;
+      max-width: 780px;
+    }
+    .mini-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .mini-nav a {
+      text-decoration: none;
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>AI Trip Planner</h1>
-    <!-- Display fetched user data -->
-    <p>Welcome, <?php echo htmlspecialchars($user['name']); ?> from <?php echo htmlspecialchars($user['hometown']); ?>!</p>
-    
-    <input type="text" id="destination" placeholder="Enter Destination" />
-    <input type="number" id="days" placeholder="Number of Days" />
-    <input type="text" id="interests" placeholder="Your Interests (e.g., adventure, history, food, nature, nightlife)" />
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="tag">AI Trip Planner</span>
+        <h1>Build a polished itinerary without the login clutter</h1>
+        <p class="summary">Welcome, <?php echo htmlspecialchars($user['name']); ?> from <?php echo htmlspecialchars($user['hometown']); ?>. This page is designed as a showcase component: enter a destination, set the duration, and let Gemini draft a structured travel plan.</p>
+        <div class="mini-nav">
+          <a href="index.php">Studio</a>
+          <a href="dashboard.php">Dashboard</a>
+          <a href="create_trip.php">Create Trip</a>
+          <a href="join_trip.php">Join Trip</a>
+        </div>
+      </div>
+      <div>
+        <div class="chat-box" style="height: 240px; margin-top: 0;">
+          <strong>What this does</strong><br><br>
+          1. Collects destination, days, interests, and budget.<br>
+          2. Sends a prompt to Gemini.<br>
+          3. Renders a day-by-day itinerary in the conversation window below.
+        </div>
+      </div>
+    </div>
+
+    <input type="text" id="destination" placeholder="Enter destination" />
+    <input type="number" id="days" placeholder="Number of days" />
+    <input type="text" id="interests" placeholder="Your interests (adventure, history, food, nature, nightlife)" />
     <input type="text" id="budget" placeholder="Enter your budget (optional)" />
-    <button onclick="generateItinerary()">Plan Trip</button>
+    <button onclick="generateItinerary()">Generate Itinerary</button>
     <p class="loading" id="loading">Planning your trip... Please wait.</p>
     <div class="chat-box" id="chat-box"></div>
   </div>
 
   <script>
-  // Pass PHP user details to JavaScript
   const userName = "<?php echo addslashes($user['name']); ?>";
   const userHometown = "<?php echo addslashes($user['hometown']); ?>";
 
@@ -153,14 +200,11 @@ if ($result && mysqli_num_rows($result) > 0) {
       return;
     }
 
-    // Display user's message
     chatBox.innerHTML += `<p class="user-message"><strong>You:</strong> I want to plan a trip to ${destination} for ${days} days with interests in ${interests}${budget ? " and a budget of " + budget : ""}.</p>`;
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    // Show loading indicator
     loading.style.display = "block";
 
-    // Updated prompt including user name and hometown
     const prompt = `My name is ${userName} and I am from ${userHometown}. I want to plan a trip to ${destination} for ${days} days. Please find the best places to visit based on Google reviews and ratings. Also, tailor the trip itinerary based on my interests, which include ${interests}.
 
 Organize the trip day by day, including:
@@ -203,13 +247,12 @@ ${budget ? "My budget is " + budget + "." : ""}`;
     chatBox.scrollTop = chatBox.scrollHeight;
   }
 
-  // Format bot response for better readability
   function formatResponse(text) {
     return text
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Bold
-      .replace(/\*(.*?)\*/g, "<em>$1</em>") // Italic
-      .replace(/- (.*?)/g, "• $1") // Bullets
-      .replace(/\n/g, "<br>"); // New lines
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/- (.*?)/g, "• $1")
+      .replace(/\n/g, "<br>");
   }
 </script>
 

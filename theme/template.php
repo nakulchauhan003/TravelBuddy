@@ -13,10 +13,10 @@ $_SESSION['to']  = $_POST['to'];
  <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Marimar</title>
+<title>TravelBuddy Studio</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Marimar Hotel template project">
+<meta name="description" content="TravelBuddy hotel and trip-planner showcase project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="<?php echo WEB_ROOT;?>styles/bootstrap-4.1.2/bootstrap.min.css">
 <link href="<?php echo WEB_ROOT;?>plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -61,9 +61,12 @@ if (isset($_SESSION['activity'])){
       <!-- Main Nav -->
       <nav class="main_nav">
         <ul class="d-flex flex-row align-items-center justify-content-start">
-           <li><a href="<?php echo WEB_ROOT;?>index.php">Home</a></li>
+           <li><a href="<?php echo WEB_ROOT;?>portal.php">Showcase Hub</a></li>
+          <li><a href="<?php echo WEB_ROOT;?>index.php">Home</a></li>
           <li><a href="<?php echo WEB_ROOT;?>index.php?p=about">About us</a></li>
-          <li><a href="<?php echo WEB_ROOT;?>index.php?p=rooms">Rooms</a></li> 
+          <li><a href="<?php echo WEB_ROOT;?>index.php?p=rooms">Rooms</a></li>
+          <li><a href="<?php echo WEB_ROOT;?>index.php?p=booking">Booking</a></li>
+          <li><a href="<?php echo WEB_ROOT;?>project_root/public/index.php">Trip Studio</a></li>
           <li><a href="<?php echo WEB_ROOT;?>index.php?p=contact">Contact</a></li>
         </ul>
       </nav>
@@ -93,7 +96,7 @@ if (isset($_SESSION['activity'])){
         </div> -->
 
         <!-- Header Link -->
-        <div class="header_link"><a href="#">Book Your Room Now</a></div>
+        <div class="header_link"><a href="<?php echo WEB_ROOT;?>portal.php">Explore Showcase Hub</a></div>
 
         <!-- Hamburger Button -->
         <div class="hamburger"><i class="fa fa-bars" aria-hidden="true"></i></div>
@@ -141,9 +144,12 @@ if (isset($_SESSION['activity'])){
       <!-- Menu Navigation -->
       <nav class="menu_nav text-center">
         <ul>
+          <li><a href="<?php echo WEB_ROOT;?>portal.php">Showcase Hub</a></li>
           <li><a href="<?php echo WEB_ROOT;?>index.php">Home</a></li>
           <li><a href="<?php echo WEB_ROOT;?>index.php?p=about">About us</a></li>
-          <li><a href="<?php echo WEB_ROOT;?>index.php?p=rooms">Rooms</a></li> 
+          <li><a href="<?php echo WEB_ROOT;?>index.php?p=rooms">Rooms</a></li>
+          <li><a href="<?php echo WEB_ROOT;?>index.php?p=booking">Booking</a></li>
+          <li><a href="<?php echo WEB_ROOT;?>project_root/public/index.php">Trip Studio</a></li>
           <li><a href="<?php echo WEB_ROOT;?>index.php?p=contact">Contact</a></li>
         </ul>
       </nav>
@@ -169,9 +175,9 @@ if (isset($_SESSION['activity'])){
   <div class="home">
     <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="<?php echo WEB_ROOT;?>images/home.jpg" data-speed="0.8"></div>
     <div class="home_container d-flex flex-column align-items-center justify-content-center">
-      <div class="home_title"><h1>Book Your Stay</h1></div>
-      <div class="home_text text-center">Fusce erat dui, venenatis et erat in, vulputate dignissim lacus. Donec vitae tempus dolor, sit amet elementum lorem. Ut cursus tempor turpis.</div>
-      <div class="button home_button"><a href="#">book now</a></div>
+      <div class="home_title"><h1>Discover TravelBuddy</h1></div>
+      <div class="home_text text-center">A polished hospitality and trip-planning showcase built for presentations, navigation, and live demos.</div>
+      <div class="button home_button"><a href="<?php echo WEB_ROOT;?>portal.php">open showcase</a></div>
     </div>
   </div>
 

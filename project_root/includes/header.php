@@ -9,36 +9,26 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Website Title</title>
-    <style>
-        
-    </style>
-    <!-- Tailwind CSS CDN -->
+    <title>TravelBuddy Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="/travil/project_root/css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-slate-50 text-slate-900">
 
-    <!-- Navbar -->
-    <nav class="bg-blue-600 text-white shadow-md">
+    <nav class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <a href="index.php" class="text-xl font-bold">Travel Buddy</a>
-                <div class="hidden md:flex space-x-6">
-                    <a href="index.php" class="hover:text-gray-300">Home</a>
-                    <a href="../public/ai.php" class="hover:text-gray-300">ai agent</a>
-                    <!-- <a href="services.php" class="hover:text-gray-300">Services</a>
-                    <a href="contact.php" class="hover:text-gray-300">Contact</a> -->
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                        <a href="dashboard.php" class="hover:text-gray-300">Dashboard</a>
-                        <a href="logout.php" class="hover:text-gray-300">Logout</a>
-                    <?php else: ?>
-                        <a href="login.php" class="hover:text-gray-300">Login</a>
-                        <a href="register.php" class="hover:text-gray-300">Register</a>
-                    <?php endif; ?>
+                <a href="index.php" class="text-xl font-black tracking-tight text-slate-900">TravelBuddy</a>
+                <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                    <a href="index.php" class="hover:text-blue-600">Home</a>
+                    <a href="dashboard.php" class="hover:text-blue-600">Studio</a>
+                    <a href="create_trip.php" class="hover:text-blue-600">Create Trip</a>
+                    <a href="join_trip.php" class="hover:text-blue-600">Trips</a>
+                    <a href="ai.php" class="hover:text-blue-600">AI Planner</a>
+                    <a href="signup.php" class="hover:text-blue-600">Profile</a>
+                    <a href="../../portal.php" class="rounded-full bg-slate-900 px-4 py-2 text-white hover:bg-blue-600">Showcase Hub</a>
                 </div>
-                <button id="menu-btn" class="md:hidden focus:outline-none">
+                <button id="menu-btn" class="md:hidden focus:outline-none text-slate-900">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                     </svg>
@@ -46,19 +36,14 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-blue-700">
-            <a href="index.php" class="block py-2 px-4 hover:bg-blue-800">Home</a>
-            <a href="about.php" class="block py-2 px-4 hover:bg-blue-800">About</a>
-            <a href="services.php" class="block py-2 px-4 hover:bg-blue-800">Services</a>
-            <a href="contact.php" class="block py-2 px-4 hover:bg-blue-800">Contact</a>
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="dashboard.php" class="block py-2 px-4 hover:bg-blue-800">Dashboard</a>
-                <a href="logout.php" class="block py-2 px-4 hover:bg-blue-800">Logout</a>
-            <?php else: ?>
-                <a href="login.php" class="block py-2 px-4 hover:bg-blue-800">Login</a>
-                <a href="register.php" class="block py-2 px-4 hover:bg-blue-800">Register</a>
-            <?php endif; ?>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
+            <a href="index.php" class="block py-3 px-4 hover:bg-slate-100">Home</a>
+            <a href="dashboard.php" class="block py-3 px-4 hover:bg-slate-100">Studio</a>
+            <a href="create_trip.php" class="block py-3 px-4 hover:bg-slate-100">Create Trip</a>
+            <a href="join_trip.php" class="block py-3 px-4 hover:bg-slate-100">Trips</a>
+            <a href="ai.php" class="block py-3 px-4 hover:bg-slate-100">AI Planner</a>
+            <a href="signup.php" class="block py-3 px-4 hover:bg-slate-100">Profile</a>
+            <a href="../../portal.php" class="block py-3 px-4 hover:bg-slate-100">Showcase Hub</a>
         </div>
     </nav>
 

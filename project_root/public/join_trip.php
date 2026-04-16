@@ -4,10 +4,6 @@ require_once '../config/db.php';
 require_once '../includes/functions.php';
 session_start();
 
-if (!isLoggedIn()) {
-    redirect('index.php');
-}
-
 // Fetch trips (summary view)
 $stmt = $pdo->prepare("SELECT t.id, t.destination, t.created_at, u.name AS creator FROM trips t JOIN users u ON t.user_id = u.id ORDER BY t.created_at DESC");
 $stmt->execute();
@@ -16,8 +12,10 @@ $trips = $stmt->fetchAll();
 
 <?php include '../includes/header.php'; ?>
 
-<div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10">
-    <h2 class="text-3xl font-semibold text-gray-800 text-center">Available Trips</h2>
+<div class="max-w-5xl mx-auto bg-white shadow-lg rounded-3xl p-8 mt-10">
+    <p class="text-sm uppercase tracking-[0.2em] text-emerald-600 font-bold text-center">Community Trips</p>
+    <h2 class="text-3xl font-black text-gray-800 text-center mt-2">Browse published trips</h2>
+    <p class="text-center text-slate-600 mt-3">This page shows trip summaries so the app feels like a living travel platform, not a login wall.</p>
 
     <?php if (count($trips) > 0): ?>
         <ul class="mt-6 space-y-4">
@@ -41,7 +39,7 @@ $trips = $stmt->fetchAll();
     <div class="text-center mt-6">
         <a href="dashboard.php"
             class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition duration-200">
-            Back to Dashboard
+            Back to Studio
         </a>
     </div>
 </div>
