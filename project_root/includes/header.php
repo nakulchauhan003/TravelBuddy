@@ -26,7 +26,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <div class="flex justify-between items-center py-4">
                 <a href="index.php" class="text-xl font-bold">Travel Buddy</a>
                 <div class="hidden md:flex space-x-6">
-                    <a href="http://localhost/marimar/hackerplayground/travellingbuddy-main/Login_page/Landing_page.html" class="hover:text-gray-300">Home</a>
+                    <a href="index.php" class="hover:text-gray-300">Home</a>
                     <a href="../public/ai.php" class="hover:text-gray-300">ai agent</a>
                     <!-- <a href="services.php" class="hover:text-gray-300">Services</a>
                     <a href="contact.php" class="hover:text-gray-300">Contact</a> -->

@@ -12,7 +12,7 @@
 //DIRECTORY_SEPARATOR is a PHP Pre-defined constants:
 //(\ for windows, / for Unix)
 defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
-defined('SITE_ROOT') ? null : define ('SITE_ROOT', $_SERVER['DOCUMENT_ROOT'].DS.'marimar');
+defined('SITE_ROOT') ? null : define('SITE_ROOT', dirname(__DIR__));
 defined('LIB_PATH') ? null : define ('LIB_PATH',SITE_ROOT.DS.'includes');
 
 // load config file first 

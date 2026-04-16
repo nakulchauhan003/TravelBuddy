@@ -1,6 +1,6 @@
 <?php
 require_once("includes/initialize.php");
-$content='home.php';
+$content='portal.php';
 $view = (isset($_GET['p']) && $_GET['p'] != '') ? $_GET['p'] : '';
 $account = 'guest/update.php';
 $small_nav = 'theme/small-navbar.php';
@@ -44,8 +44,8 @@ switch ($view) {
     $content ='largeimg.php';
     break;
   default :
-      $title="Home";  
-    $content ='home.php';   
+      $title="Showcase Hub";  
+      $content ='portal.php';   
 }
 
 require_once ('theme/template.php');
