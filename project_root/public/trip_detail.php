@@ -3,29 +3,50 @@
 require_once '../config/db.php';
 require_once '../includes/functions.php';
 session_start();
+require_once __DIR__ . '/demo_trips.php';
 
 if (!isLoggedIn()) {
     redirect('index.php');
 }
 
-if (!isset($_GET['trip_id'])) {
-    redirect('join_trip.php');
+$demoTrips = getDemoTrips();
+$isDemoTrip = false;
+$trip = null;
+
+if (isset($_GET['demo'])) {
+    $demoSlug = $_GET['demo'];
+    foreach ($demoTrips as $demoTrip) {
+        if ($demoTrip['slug'] === $demoSlug) {
+            $trip = $demoTrip;
+            $isDemoTrip = true;
+            break;
+        }
+    }
+} else {
+    if (!isset($_GET['trip_id'])) {
+        redirect('join_trip.php');
+    }
+
+    $trip_id = intval($_GET['trip_id']);
+
+    // Fetch trip details
+    $stmt = $pdo->prepare("SELECT t.*, u.name AS creator FROM trips t JOIN users u ON t.user_id = u.id WHERE t.id = ?");
+    $stmt->execute([$trip_id]);
+    $trip = $stmt->fetch();
 }
-
-$trip_id = intval($_GET['trip_id']);
-
-// Fetch trip details
-$stmt = $pdo->prepare("SELECT t.*, u.name AS creator FROM trips t JOIN users u ON t.user_id = u.id WHERE t.id = ?");
-$stmt->execute([$trip_id]);
-$trip = $stmt->fetch();
 
 if (!$trip) {
     echo "<div class='text-center mt-10 text-red-600 text-xl font-bold'>Trip not found.</div>";
     exit;
 }
 
+$trip_id = $trip_id ?? null;
+
 // Handle joining the trip
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['join'])) {
+    if ($isDemoTrip) {
+        $msg = "Demo join request saved. This is a preview trip, so no database record was created.";
+    } else {
     // Check if already joined
     $stmt = $pdo->prepare("SELECT * FROM trip_participants WHERE trip_id = ? AND user_id = ?");
     $stmt->execute([$trip_id, $_SESSION['user_id']]);
@@ -40,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['join'])) {
             $msg = "Error joining trip: " . $e->getMessage();
         }
     }
+    }
 }
 ?>
 
@@ -47,7 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['join'])) {
 
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
     <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
-        <h2 class="text-2xl font-bold text-center text-gray-700 mb-4">Trip Details</h2>
+        <h2 class="text-2xl font-bold text-center text-gray-700 mb-4"><?php echo $isDemoTrip ? 'Demo Trip Details' : 'Trip Details'; ?></h2>
+        <?php if ($isDemoTrip): ?>
+            <p class="text-center text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">This is a demo trip preview. Joining it simulates the experience without saving to the database.</p>
+        <?php endif; ?>
         
         <?php if (isset($msg)): ?>
             <p class="text-center text-<?php echo strpos($msg, 'Error') !== false ? 'red' : 'green'; ?>-600 font-medium">
@@ -59,11 +84,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['join'])) {
             <p><strong class="text-gray-600">Destination:</strong> <span class="text-gray-800"><?php echo htmlspecialchars($trip['destination']); ?></span></p>
             <p><strong class="text-gray-600">Transportation:</strong> <span class="text-gray-800"><?php echo htmlspecialchars($trip['transportation']); ?></span></p>
             <p><strong class="text-gray-600">Travel Details:</strong> <span class="text-gray-800"><?php echo nl2br(htmlspecialchars($trip['travel_details'])); ?></span></p>
-            <p><strong class="text-gray-600">Budget:</strong> <span class="text-gray-800">$<?php echo htmlspecialchars($trip['budget']); ?></span></p>
-            <p><strong class="text-gray-600">Created by:</strong> <span class="text-gray-800"><?php echo htmlspecialchars($trip['creator']); ?></span> on <span class="text-gray-800"><?php echo $trip['created_at']; ?></span></p>
+            <p><strong class="text-gray-600">Budget:</strong> <span class="text-gray-800">₱<?php echo number_format((float)$trip['budget'], 2); ?></span></p>
+            <p><strong class="text-gray-600">Created by:</strong> <span class="text-gray-800"><?php echo htmlspecialchars($trip['creator']); ?></span> on <span class="text-gray-800"><?php echo date('F j, Y', strtotime($trip['created_at'])); ?></span></p>
         </div>
 
-        <form method="post" action="trip_detail.php?trip_id=<?php echo $trip_id; ?>" class="mt-6">
+        <form method="post" action="<?php echo $isDemoTrip ? 'trip_detail.php?demo=' . urlencode($trip['slug']) : 'trip_detail.php?trip_id=' . $trip_id; ?>" class="mt-6">
             <button type="submit" name="join" 
                 class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300">
                 Join Trip
