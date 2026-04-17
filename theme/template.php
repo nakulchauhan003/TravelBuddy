@@ -1,3 +1,5 @@
+                  <a class="nav-link" href="<?php echo WEB_ROOT; ?>index.php?p=rooms_showcase">Rooms Gallery</a>
+                  <a class="nav-link" href="<?php echo WEB_ROOT; ?>index.php?p=aboutus">About Us</a>
 <?php
 if(isset($_POST['avail'])){
   
