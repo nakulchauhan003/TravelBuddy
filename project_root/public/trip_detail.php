@@ -5,9 +5,7 @@ require_once '../includes/functions.php';
 session_start();
 require_once __DIR__ . '/demo_trips.php';
 
-if (!isLoggedIn()) {
-    redirect('index.php');
-}
+$profileId = $_SESSION['user_id'] ?? 1;
 
 $demoTrips = getDemoTrips();
 $isDemoTrip = false;
@@ -49,13 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['join'])) {
     } else {
     // Check if already joined
     $stmt = $pdo->prepare("SELECT * FROM trip_participants WHERE trip_id = ? AND user_id = ?");
-    $stmt->execute([$trip_id, $_SESSION['user_id']]);
+    $stmt->execute([$trip_id, $profileId]);
     if ($stmt->fetch()) {
         $msg = "Request Sent!!!";
     } else {
         $stmt = $pdo->prepare("INSERT INTO trip_participants (trip_id, user_id) VALUES (?, ?)");
         try {
-            $stmt->execute([$trip_id, $_SESSION['user_id']]);
+            $stmt->execute([$trip_id, $profileId]);
             $msg = "You have successfully joined the trip.";
         } catch (PDOException $e) {
             $msg = "Error joining trip: " . $e->getMessage();
