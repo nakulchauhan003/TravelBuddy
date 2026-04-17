@@ -5,12 +5,49 @@ $db_username  = "root";
 $db_password  = "";
 $database     = "travel_db";
 
-// Create connection
+// Create connection with improved error handling
 $conn = new mysqli($servername, $db_username, $db_password, $database);
 
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    $error_code = $conn->connect_errno;
+    $error_msg = $conn->connect_error;
+    
+    // Detailed error reporting
+    error_log("Database Connection Error - Code: $error_code, Message: $error_msg");
+    
+    // User-friendly error message
+    if ($error_code === 1049) {
+        die("<h2>Database Connection Error</h2>
+            <p><strong>Error:</strong> Unknown database '$database'</p>
+            <p><strong>Solution:</strong></p>
+            <ol>
+                <li>Open phpMyAdmin: <a href='http://localhost/phpmyadmin' target='_blank'>http://localhost/phpmyadmin</a></li>
+                <li>Click 'New' in the left sidebar</li>
+                <li>Create database: <code>travel_db</code></li>
+                <li>If you have a .sql file, import it via the Import tab</li>
+                <li>Refresh this page</li>
+            </ol>
+            <p><strong>Alternative:</strong> Run the setup script: <a href='http://localhost/TravelBuddy/diagnostic.php' target='_blank'>Diagnostic & Setup Tool</a></p>
+            <p style='color: #666; font-size: 12px;'>Debug Info: Code $error_code - $error_msg</p>");
+    } else {
+        die("<h2>Database Connection Error</h2>
+            <p><strong>Error:</strong> " . htmlspecialchars($error_msg) . "</p>
+            <p><strong>Details:</strong></p>
+            <ul>
+                <li>Server: $servername</li>
+                <li>Username: $db_username</li>
+                <li>Database: $database</li>
+                <li>Error Code: $error_code</li>
+            </ul>
+            <p><strong>Checklist:</strong></p>
+            <ul>
+                <li>✓ Is MySQL running? (Check XAMPP Control Panel)</li>
+                <li>✓ Is the database name spelled correctly?</li>
+                <li>✓ Do you have the correct username/password?</li>
+            </ul>
+            <p><a href='http://localhost/phpmyadmin' target='_blank'>Open phpMyAdmin</a> | <a href='http://localhost/TravelBuddy/diagnostic.php' target='_blank'>Run Diagnostic</a></p>");
+    }
 }
 
 function loadEnvFile($envPath)
